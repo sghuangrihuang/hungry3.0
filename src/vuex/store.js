@@ -1,8 +1,8 @@
 /*
 * @Author: sghuangrihuang
 * @Date:   2017-06-07 16:26:53
-* @Last Modified by:   sghuangrihuang
-* @Last Modified time: 2017-06-10 10:52:33
+ * @Last Modified by: sghuangrihuang
+ * @Last Modified time: 2017-06-26 11:11:38
 */
 
 import Vue from 'vue'
@@ -24,7 +24,6 @@ const state = {
     // 选中的购物车
     selectFoods : [],
 }
-
 
 const mutations = {
 
