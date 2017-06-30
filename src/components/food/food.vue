@@ -36,7 +36,7 @@
 				<ratingselect :ratings="food.ratings" :desc="desc"></ratingselect>
 				<div class="rating-warpper">
 					<ul v-show="food.ratings && food.ratings.length" >
-						<li v-for="rating in food.ratings" v-show="needShow(rating.rateType, rating.text)" class="rating-item">
+						<li v-for="(rating, index) in food.ratings" v-show="needShow(rating.rateType, rating.text)" class="rating-item" :key="index">
 							<div class="user">
 								<span class="name">{{rating.username}}</span>
 								<img :src="rating.avatar" class="avatar" width="12" height="12">

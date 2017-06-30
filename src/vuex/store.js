@@ -7,6 +7,7 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
+import {urlParse} from '@/common/js/utill.js';
 
 Vue.use(Vuex)
 
@@ -23,7 +24,20 @@ const state = {
     foodShowFlag : false,
     // 选中的购物车
     selectFoods : [],
+    // seller数据
+    seller: {},
 }
+// 初始化seller数据
+const ERR_OK = 0;
+const seller = ({ "id":0 } || urlParse());
+state.seller.id = seller.id;
+new Vue().$http.get('/api/seller?id='+state.seller.id).then((res) => {
+    res = res.body;
+    if( res.errno === ERR_OK) {
+        state.seller = Object.assign({}, state.seller, res.data);
+    }
+});
+
 
 const mutations = {
 

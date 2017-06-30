@@ -31,7 +31,7 @@
 					</div>
 					<div class="list-content" ref="listContent">
 						<ul>
-							<li v-for="food in selectFoods" class="food" v-show='food.count'>
+							<li v-for="(food, index) in selectFoods" class="food" v-show='food.count' :key="index">
 								<span class="name">{{food.name}}</span>
 								<div class="price">
 									<span>${{food.price*food.count}}</span>

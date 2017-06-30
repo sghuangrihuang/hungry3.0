@@ -10,10 +10,6 @@
 	const CLS_OFF="off";
 	const CLS_HALF="half";
 	export default{
-		data () {
-			return {
-			}
-		},
 		props:{
 			// 大小
 			size:{

@@ -63,15 +63,11 @@
 	const ALL = 2;
 	const ERR_OK=0;
 	export default {
-		props: {
-			seller: {
-				type:Object
-			},
-		},
 		computed: {
 			...mapState({
                 selectType: state => state.activeRating.selectType,
-                onlyContent: state => state.activeRating.onlyContent
+                onlyContent: state => state.activeRating.onlyContent,
+				seller: state => state.seller,
             })
 		},
 		data() {

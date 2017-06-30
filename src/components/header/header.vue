@@ -45,7 +45,7 @@
 						</div>
 						<div v-if="seller.supports" class="supports">
 							<ul>
-								<li class="support-item" v-for="(item, index) in seller.supports">
+								<li class="support-item" v-for="(item, index) in seller.supports" :key="index">
 									<span class="icon" :class="classMap[item.type]"></span>
 									<span class="text">{{item.description}}</span>
 								</li>
@@ -71,10 +71,13 @@
 
 <script>
 	import star from '../star/star.vue';
+	import {mapState, mapGetters, mapActions} from "Vuex";
 	export default{
-		props:{
-			seller:{}
-		},
+		computed: {
+          ...mapState({
+            seller: state => state.seller
+          })
+        },
 		methods:{
 			showDetail() {
 				this.detailShow=true

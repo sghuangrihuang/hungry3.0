@@ -41,7 +41,7 @@
                 </div>
                 <div v-if="seller.supports" class="supports">
                     <ul>
-                        <li class="support-item border-1px" v-for="(item, index) in seller.supports">
+                        <li class="support-item border-1px" v-for="(item, index) in seller.supports" :key="index">
                             <span class="icon" :class="classMap[item.type]"></span>
                             <span class="text">{{item.description}}</span>
                         </li>
@@ -53,7 +53,7 @@
                 <h1 class="title">商家实景</h1>
                 <div class="pic-warpper" ref="picWarpper">
                     <ul class="pic-list" ref="picList">
-                        <li class="pic-item" v-for="pic in seller.pics">
+                        <li class="pic-item" v-for="(pic, index) in seller.pics" :key="index">
                             <img :src="pic">
                         </li>
                     </ul>
@@ -63,7 +63,7 @@
             <div class="info">
                 <h1 class="title">商家信息</h1>
                 <ul>
-                    <li class="info-item" v-for="info in seller.infos">{{info}}</li>
+                    <li class="info-item" v-for="(info, index) in seller.infos" :key="index">{{info}}</li>
                 </ul>
             </div>
         </div>
@@ -72,24 +72,27 @@
 
 <script>
   import star from '../star/star.vue';
-  import split from '../split/split.vue';
+  import split from '../split/split.vue';    
+  import {mapState, mapGetters, mapActions} from "Vuex";
   import {saveToLocal, loadFromLocal} from '../../common/js/store.js';
   import BScroll from 'better-scroll';
   export default {
-        props: {
-            seller: {
-                type:Object
-            }
-        },
         data() {
             return {
-                favorite: ( ()=> loadFromLocal(this.seller.id, 'favorite') )()
+                favorite: ( ()=> {
+                    this.$nextTick(()=>{
+                        return loadFromLocal(this.seller.id, 'favorite', false)
+                    })
+                } )()
             }
         },
-        computed:{
+        computed: {
+            ...mapState({
+                seller: state => state.seller
+            }),   
             favoriteText(){
                 return this.favorite ? '已收藏' : '收藏';
-            }
+            },
         },
         created() {
             this.classMap = ['decrease','discount','special','invoice','guarantee']
@@ -99,7 +102,7 @@
                 if(!event._constructed){
                     return;
                 }
-                this.favorite=!this.favorite;
+                this.favorite = !this.favorite;
                 saveToLocal( this.seller.id, 'favorite', this.favorite);
             },
             _initScroll() {

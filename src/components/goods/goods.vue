@@ -1,9 +1,9 @@
 <template>
-	<div>
+	<div id="goods">
 		<div class="goods">
 			<div class="menu-warpper" ref="menuWrapper">
 				<ul>
-					<li v-for="(item, index) in goods" class="menu-item" :class="{ 'current':currentIndex === index }" @click="selectMenu(index, $event)">
+					<li v-for="(item, index) in goods" class="menu-item" :key="index" :class="{ 'current':currentIndex === index }" @click="selectMenu(index, $event)">
 						<span class="text">
 							<span v-show='item.type>0' class="icon" :class='classMap[item.type]'></span>{{item.name}}
 						</span>
@@ -12,10 +12,10 @@
 			</div>
 			<div class="foods-warpper" ref="foodWrapper">
 				<ul>
-					<li v-for="item in goods" class="food-list foot-list-hook">
+					<li v-for="item in goods" class="food-list foot-list-hook" :key="item.id" >
 						<h1 class="title">{{item.name}}</h1>
 						<ul>
-							<li v-for='food in item.foods' @click='selectFoodItem(food, $event)' class="food-item border-1px">
+							<li v-for='(food, index) in item.foods' @click='selectFoodItem(food, $event)' class="food-item border-1px" :key="index">
 								<div class="icon">
 									<img :src='food.icon' width="100%">
 								</div>
@@ -52,11 +52,6 @@
  	import food from '../food/food.vue';
 	const ERR_OK = 0;
 	export default {
-		props: {
-			seller:{
-				type:Object
-			}
-		},
 		data() {
 			return {
 				goods: [],
@@ -78,7 +73,6 @@
 						});
 					});
 					this.goods = data;
-
 					// 数据加载完毕之后  才获取初始化参数
 					this.$nextTick(() =>{
 						this._calculateHeight();
@@ -90,6 +84,9 @@
 			})
 		},
 		computed: {
+			...mapState({
+                seller: state => state.seller
+            }),  
 			currentIndex() {
 				for(let i = 0; i < this.listHeight.length; i++){
 					let height1= this.listHeight[i];
